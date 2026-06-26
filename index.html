@@ -9,477 +9,323 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue: #378ADD;
-      --blue-dark: #185FA5;
-      --blue-light: #85B7EB;
-      --teal: #5DCAA5;
-      --navy: #0B1F3A;
-      --navy2: #0D2240;
-      --navy3: #091830;
-      --gold: #FAD05A;
+      /* Day palette */
+      --sky-top: #1a6bb5;
+      --sky-bot: #4fc3f7;
+      --ocean1: #1565c0;
+      --ocean2: #1976d2;
+      --ocean3: #1e88e5;
+      --ocean4: #42a5f5;
+      --ocean5: #90caf9;
+      --wave-crest: #bbdefb;
+      --nav-bg: rgba(21,101,192,0.95);
+      --section-a: #0d47a1;
+      --section-b: #1565c0;
+      --section-foot: #0a3880;
+      --card-bg: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.2);
+      --accent: #64b5f6;
+      --accent2: #81d4fa;
+      --text-dim: rgba(255,255,255,0.6);
+      --text-dimmer: rgba(255,255,255,0.38);
+      --horizon: rgba(255,255,255,0.3);
+      --divider-a: #1565c0;
+      --divider-b: #0d47a1;
+    }
+
+    body.night {
+      --sky-top: #020b18;
+      --sky-bot: #0b1f3a;
+      --ocean1: #050f1f;
+      --ocean2: #071528;
+      --ocean3: #091a30;
+      --ocean4: #0d2240;
+      --ocean5: #1a3a6a;
+      --wave-crest: #85b7eb;
+      --nav-bg: rgba(2,11,24,0.97);
+      --section-a: #0d2240;
+      --section-b: #0b1f3a;
+      --section-foot: #050d1a;
+      --card-bg: rgba(55,138,221,0.07);
+      --card-border: rgba(55,138,221,0.2);
+      --accent: #378add;
+      --accent2: #5dcaa5;
+      --text-dim: rgba(255,255,255,0.5);
+      --text-dimmer: rgba(255,255,255,0.28);
+      --horizon: rgba(55,138,221,0.3);
+      --divider-a: #0d2240;
+      --divider-b: #0b1f3a;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--navy);
+      background: var(--section-b);
       color: #fff;
       line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 1.2s ease;
     }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+    .reveal-delay-4 { transition-delay:.4s; }
 
     /* ── NAV ── */
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 40px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.08);
-      position: sticky;
-      top: 0;
-      background: rgba(11,31,58,0.95);
-      backdrop-filter: blur(10px);
-      z-index: 100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 40px;
+      border-bottom:0.5px solid rgba(255,255,255,0.1);
+      position:sticky; top:0;
+      background: var(--nav-bg);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      z-index:1000;
+      transition: background 1.2s ease, box-shadow .3s;
     }
+    nav.scrolled { box-shadow:0 2px 28px rgba(0,0,0,0.4); }
 
-    .nav-logo { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
-    .nav-logo .vizag { color: #fff; }
-    .nav-logo .wave  { color: var(--blue); }
-    .nav-logo .tech  { color: var(--teal); }
+    .nav-logo { font-size:16px; font-weight:700; letter-spacing:-.3px; text-decoration:none; }
+    .nav-logo .vizag { color:#fff; }
+    .nav-logo .wave  { color:var(--accent); transition:color 1.2s; }
+    .nav-logo .tech  { color:var(--accent2); transition:color 1.2s; }
 
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a {
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      transition: color 0.2s;
+    .nav-center { display:flex; gap:26px; list-style:none; }
+    .nav-center a {
+      font-size:13px; color:rgba(255,255,255,.55); text-decoration:none;
+      position:relative; padding-bottom:2px; transition:color .2s;
     }
-    .nav-links a:hover { color: #fff; }
+    .nav-center a::after {
+      content:''; position:absolute; bottom:-2px; left:0;
+      width:0; height:1.5px; background:var(--accent);
+      transition:width .25s, background 1.2s;
+    }
+    .nav-center a:hover { color:#fff; }
+    .nav-center a:hover::after { width:100%; }
 
     .nav-cta {
-      font-size: 13px;
-      padding: 8px 18px;
-      border: 0.5px solid rgba(55,138,221,0.5);
-      border-radius: 8px;
-      color: var(--blue);
-      text-decoration: none;
-      transition: background 0.2s;
+      font-size:13px; padding:8px 18px;
+      border:0.5px solid rgba(255,255,255,.3);
+      border-radius:8px; color:#fff; text-decoration:none;
+      transition:background .2s, border-color .2s, color 1.2s;
     }
-    .nav-cta:hover { background: rgba(55,138,221,0.12); }
+    .nav-cta:hover { background:rgba(255,255,255,.12); }
+
+    .nav-toggle {
+      display:none; flex-direction:column; gap:5px;
+      cursor:pointer; padding:4px; background:none; border:none;
+    }
+    .nav-toggle span { display:block; width:22px; height:1.5px; background:#fff; transition:transform .3s,opacity .3s; }
+    .nav-toggle.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity:0; }
+    .nav-toggle.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display:none; flex-direction:column;
+      background:var(--nav-bg); border-top:.5px solid rgba(255,255,255,.08);
+      padding:8px 0 16px; transition:background 1.2s;
+    }
+    .mobile-menu a { padding:12px 28px; font-size:15px; color:rgba(255,255,255,.7); text-decoration:none; transition:color .2s,background .2s; }
+    .mobile-menu a:hover { color:#fff; background:rgba(255,255,255,.05); }
+    .mobile-menu.open { display:flex; }
 
     /* ── HERO ── */
-    .hero { position: relative; overflow: hidden; background: var(--navy); }
-    .hero svg.hero-scene { display: block; width: 100%; }
+    .hero { position:relative; overflow:hidden; }
+    #heroCanvas { display:block; width:100%; }
 
     .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 60px 40px 28px;
+      position:absolute; top:0; left:0; right:0; z-index:5;
+      padding:80px 40px 0;
+      pointer-events:none;
     }
+    .hero-content a, .hero-content button { pointer-events:all; }
 
-    .eyebrow {
-      font-size: 11px;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: var(--blue);
-      font-weight: 500;
-      margin-bottom: 14px;
-    }
+    .eyebrow { font-size:11px; letter-spacing:1.8px; text-transform:uppercase; color:var(--accent); font-weight:500; margin-bottom:16px; animation:fadeUp .8s ease both; transition:color 1.2s; }
 
-    .hero h1 {
-      font-size: 52px;
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -2px;
-      color: #fff;
-      margin-bottom: 14px;
-    }
+    .hero h1 { font-size:54px; font-weight:700; line-height:1.07; letter-spacing:-2px; color:#fff; margin-bottom:14px; animation:fadeUp .8s .1s ease both; text-shadow:0 2px 16px rgba(0,0,0,0.35); }
+    .hero h1 em { font-style:normal; color:var(--accent); transition:color 1.2s; }
 
-    .hero h1 em { font-style: normal; color: var(--blue); }
+    .hero p { font-size:17px; color:rgba(255,255,255,.75); max-width:480px; line-height:1.7; margin-bottom:30px; animation:fadeUp .8s .2s ease both; text-shadow:0 1px 8px rgba(0,0,0,.3); }
 
-    .hero p {
-      font-size: 16px;
-      color: rgba(255,255,255,0.58);
-      max-width: 460px;
-      line-height: 1.65;
-      margin-bottom: 28px;
-    }
+    .typed-text::after { content:'|'; color:var(--accent); animation:blink .8s step-end infinite; transition:color 1.2s; }
 
-    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+    .cta-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:40px; animation:fadeUp .8s .3s ease both; }
 
-    .btn-primary {
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.2s;
-    }
-    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-primary { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:13px 28px; font-size:15px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:background .2s,transform .15s,filter .2s; }
+    .btn-primary:hover { filter:brightness(1.15); transform:translateY(-2px); }
 
-    .btn-ghost {
-      background: transparent;
-      color: #fff;
-      border: 0.5px solid rgba(255,255,255,0.25);
-      border-radius: 10px;
-      padding: 13px 28px;
-      font-size: 15px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.2s;
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.07); }
+    .btn-ghost { background:rgba(255,255,255,.1); color:#fff; border:.5px solid rgba(255,255,255,.35); border-radius:10px; padding:13px 28px; font-size:15px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:background .2s,transform .15s; backdrop-filter:blur(6px); }
+    .btn-ghost:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
 
-    /* ── WAVE DIVIDERS ── */
-    .wave-divider { display: block; width: 100%; }
+    .hero-stats { display:flex; gap:40px; flex-wrap:wrap; animation:fadeUp .8s .4s ease both; }
+    .stat-num { font-size:30px; font-weight:700; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.3); }
+    .stat-num span { color:var(--accent); transition:color 1.2s; }
+    .stat-label { font-size:12px; color:rgba(255,255,255,.5); letter-spacing:.5px; margin-top:2px; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* ── WAVE SVG DIVIDERS ── */
+    .wave-divider { display:block; width:100%; transition:fill 1.2s; }
 
     /* ── SECTIONS ── */
-    .section {
-      padding: 56px 40px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.05);
-    }
-    .section.alt { background: var(--navy2); }
+    .section { padding:64px 40px; border-bottom:.5px solid rgba(255,255,255,.06); transition:background 1.2s; }
+    .section.alt { background:var(--section-a); }
+    .section:not(.alt) { background:var(--section-b); }
 
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 1.6px;
-      text-transform: uppercase;
-      color: var(--blue);
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-
-    .section h2 {
-      font-size: 32px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: -0.8px;
-    }
-
-    .section .sub {
-      font-size: 15px;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.65;
-      margin-bottom: 28px;
-      max-width: 500px;
-    }
+    .section-label { font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:10px; transition:color 1.2s; }
+    .section h2 { font-size:34px; font-weight:700; color:#fff; margin-bottom:10px; letter-spacing:-.8px; }
+    .section .sub { font-size:15px; color:var(--text-dim); line-height:1.7; margin-bottom:32px; max-width:520px; transition:color 1.2s; }
 
     /* ── ABOUT ── */
-    .about-card {
-      background: rgba(55,138,221,0.07);
-      border: 0.5px solid rgba(55,138,221,0.2);
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      max-width: 600px;
-    }
+    .about-card { background:var(--card-bg); border:.5px solid var(--card-border); border-radius:18px; padding:28px; display:flex; gap:22px; align-items:flex-start; max-width:620px; transition:border-color .3s,transform .3s,background 1.2s; }
+    .about-card:hover { border-color:rgba(255,255,255,.4); transform:translateY(-2px); }
 
-    .avatar {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: var(--blue-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .about-card h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 3px; }
-    .about-card .role { font-size: 13px; color: var(--blue); margin-bottom: 10px; }
-    .about-card p { font-size: 14px; color: rgba(255,255,255,0.52); line-height: 1.65; }
+    .avatar { width:54px; height:54px; border-radius:50%; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff; flex-shrink:0; border:2px solid rgba(255,255,255,.25); backdrop-filter:blur(4px); }
+    .about-card h3 { font-size:17px; font-weight:700; color:#fff; margin-bottom:3px; }
+    .about-card .role { font-size:13px; color:var(--accent); margin-bottom:12px; font-weight:500; transition:color 1.2s; }
+    .about-card p { font-size:14px; color:var(--text-dim); line-height:1.7; transition:color 1.2s; }
 
     /* ── PRODUCTS ── */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .product-card {
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(55,138,221,0.18);
-      border-radius: 16px;
-      padding: 24px;
-      transition: border-color 0.2s;
-    }
-    .product-card:hover { border-color: rgba(55,138,221,0.45); }
-
-    .p-tag {
-      font-size: 10px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--blue);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .product-card h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 8px; }
-    .product-card p { font-size: 13px; color: rgba(255,255,255,0.48); line-height: 1.6; }
-
-    .p-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 14px;
-      font-size: 13px;
-      color: var(--blue);
-      text-decoration: none;
-      transition: gap 0.2s;
-    }
-    .p-link:hover { gap: 8px; }
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:18px; }
+    .product-card { background:var(--card-bg); border:.5px solid var(--card-border); border-radius:18px; padding:28px; transition:border-color .25s,transform .25s,background 1.2s; cursor:default; }
+    .product-card:hover { border-color:rgba(255,255,255,.45); transform:translateY(-3px); }
+    .p-tag { display:inline-block; font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:12px; padding:4px 10px; background:rgba(255,255,255,.1); border-radius:20px; transition:color 1.2s; }
+    .product-card h3 { font-size:18px; font-weight:700; color:#fff; margin-bottom:10px; }
+    .product-card p { font-size:14px; color:var(--text-dim); line-height:1.65; transition:color 1.2s; }
+    .p-link { display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-size:13px; color:var(--accent); text-decoration:none; font-weight:500; transition:gap .2s,color 1.2s; }
+    .p-link:hover { gap:10px; }
 
     /* ── SERVICES ── */
-    .services-list { display: flex; flex-direction: column; gap: 12px; max-width: 600px; }
-
-    .service-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 20px;
-      border: 0.5px solid rgba(255,255,255,0.07);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .service-row:hover {
-      background: rgba(55,138,221,0.07);
-      border-color: rgba(55,138,221,0.2);
-    }
-
-    .service-icon {
-      width: 42px; height: 42px;
-      border-radius: 10px;
-      background: rgba(55,138,221,0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--blue);
-      font-size: 20px;
-    }
-
-    .service-row h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 3px; }
-    .service-row p { font-size: 13px; color: rgba(255,255,255,0.42); }
+    .services-list { display:flex; flex-direction:column; gap:12px; max-width:660px; }
+    .service-row { display:flex; align-items:center; gap:18px; padding:18px 22px; border:.5px solid var(--card-border); border-radius:14px; background:var(--card-bg); transition:background .2s,border-color .2s,transform .2s; cursor:default; }
+    .service-row:hover { background:rgba(255,255,255,.12); transform:translateX(5px); }
+    .service-icon { width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--accent); font-size:22px; transition:background .2s,color 1.2s; }
+    .service-row:hover .service-icon { background:rgba(255,255,255,.18); }
+    .service-row h3 { font-size:15px; font-weight:600; color:#fff; margin-bottom:3px; }
+    .service-row p { font-size:13px; color:var(--text-dim); transition:color 1.2s; }
 
     /* ── WHY ── */
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .why-card {
-      text-align: center;
-      padding: 22px 12px;
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(55,138,221,0.15);
-      border-radius: 12px;
-      transition: background 0.2s;
-    }
-    .why-card:hover { background: rgba(55,138,221,0.08); }
-
-    .why-card .w-icon { font-size: 26px; color: var(--blue); margin-bottom: 8px; }
-    .why-card .w-word {
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    .why-card .w-meaning { font-size: 15px; font-weight: 600; color: #fff; margin-top: 4px; }
+    .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+    .why-card { text-align:center; padding:26px 14px; background:var(--card-bg); border:.5px solid var(--card-border); border-radius:14px; transition:background .2s,transform .2s,border-color .2s; cursor:default; }
+    .why-card:hover { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.4); transform:translateY(-4px); }
+    .why-card .w-icon { font-size:28px; color:var(--accent); margin-bottom:10px; display:block; transition:color 1.2s; }
+    .why-card .w-word { font-size:10px; font-weight:700; color:rgba(255,255,255,.3); letter-spacing:1px; text-transform:uppercase; }
+    .why-card .w-arrow { font-size:11px; color:rgba(255,255,255,.2); margin:4px 0 2px; }
+    .why-card .w-meaning { font-size:16px; font-weight:700; color:#fff; margin-top:5px; }
 
     /* ── FOUNDER ── */
-    .founder-card {
-      background: rgba(55,138,221,0.06);
-      border: 0.5px solid rgba(55,138,221,0.18);
-      border-radius: 16px;
-      padding: 28px;
-      max-width: 520px;
-    }
-    .founder-card .quote {
-      font-size: 18px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.55;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-    .founder-meta { display: flex; align-items: center; gap: 14px; }
-    .founder-card .name { font-size: 15px; font-weight: 600; color: #fff; }
-    .founder-card .title { font-size: 13px; color: var(--blue); }
+    .founder-card { background:var(--card-bg); border:.5px solid var(--card-border); border-radius:18px; padding:32px; max-width:560px; transition:border-color .3s,transform .3s,background 1.2s; }
+    .founder-card:hover { border-color:rgba(255,255,255,.4); transform:translateY(-2px); }
+    .founder-card .quote { font-size:19px; font-weight:500; color:rgba(255,255,255,.9); line-height:1.55; margin-bottom:24px; font-style:italic; border-left:3px solid var(--accent); padding-left:18px; transition:border-color 1.2s; }
+    .founder-meta { display:flex; align-items:center; gap:14px; }
+    .founder-card .name { font-size:15px; font-weight:700; color:#fff; }
+    .founder-card .title { font-size:13px; color:var(--accent); margin-top:2px; transition:color 1.2s; }
 
     /* ── CONTACT ── */
-    .contact-strip {
-      background: rgba(55,138,221,0.09);
-      border: 0.5px solid rgba(55,138,221,0.25);
-      border-radius: 16px;
-      padding: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .contact-strip h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .contact-strip .email-hint { font-size: 13px; color: rgba(255,255,255,0.42); }
-
-    .contact-links { display: flex; gap: 10px; flex-wrap: wrap; }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 10px 16px;
-      background: rgba(255,255,255,0.06);
-      border: 0.5px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.75);
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-    .contact-link:hover { background: rgba(55,138,221,0.2); color: #fff; }
-    .contact-link i { font-size: 17px; }
+    .contact-strip { background:var(--card-bg); border:.5px solid var(--card-border); border-radius:18px; padding:36px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; transition:background 1.2s; }
+    .contact-strip h3 { font-size:24px; font-weight:700; color:#fff; margin-bottom:6px; }
+    .contact-strip .email-hint { font-size:14px; color:var(--text-dim); display:flex; align-items:center; gap:6px; transition:color 1.2s; }
+    .contact-links { display:flex; gap:10px; flex-wrap:wrap; }
+    .contact-link { display:flex; align-items:center; gap:8px; padding:11px 18px; background:rgba(255,255,255,.08); border:.5px solid rgba(255,255,255,.15); border-radius:10px; font-size:13px; color:rgba(255,255,255,.75); text-decoration:none; font-weight:500; transition:background .2s,color .2s,transform .2s,border-color .2s; }
+    .contact-link:hover { background:rgba(255,255,255,.2); color:#fff; transform:translateY(-2px); }
+    .contact-link i { font-size:18px; }
 
     /* ── FOOTER ── */
-    footer {
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      background: var(--navy3);
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+    footer { padding:24px 40px; display:flex; justify-content:space-between; align-items:center; border-top:.5px solid rgba(255,255,255,.08); background:var(--section-foot); flex-wrap:wrap; gap:12px; transition:background 1.2s; }
+    footer p { font-size:12px; color:var(--text-dimmer); transition:color 1.2s; }
+    .footer-links { display:flex; gap:20px; align-items:center; }
+    .footer-links a { font-size:13px; color:var(--text-dimmer); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:#fff; }
 
-    footer p { font-size: 12px; color: rgba(255,255,255,0.28); }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.28); text-decoration: none; }
-    .footer-links a:hover { color: rgba(255,255,255,0.6); }
+    /* ── BACK TO TOP ── */
+    .back-top { position:fixed; bottom:28px; right:28px; width:42px; height:42px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; color:#fff; border:none; opacity:0; transform:translateY(10px); transition:opacity .3s,transform .3s,background 1.2s; z-index:500; text-decoration:none; }
+    .back-top.show { opacity:1; transform:translateY(0); }
+    .back-top:hover { filter:brightness(1.15); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
-      .hero-content { padding: 40px 20px 20px; }
-      .hero h1 { font-size: 34px; letter-spacing: -1px; }
-      .section { padding: 40px 20px; }
-      .contact-strip { flex-direction: column; align-items: flex-start; }
-      footer { padding: 16px 20px; }
+    /* ── DAY/NIGHT TOGGLE HINT ── */
+    .toggle-hint { position:absolute; top:16px; right:16px; z-index:10; font-size:11px; color:rgba(255,255,255,.5); background:rgba(0,0,0,.2); padding:4px 10px; border-radius:20px; backdrop-filter:blur(4px); pointer-events:none; animation:fadeUp 1s 1.5s ease both; }
+
+    @media (max-width:768px) {
+      nav { padding:14px 20px; }
+      .nav-center,.nav-cta { display:none; }
+      .nav-toggle { display:flex; }
+      .hero-content { padding:44px 20px 0; }
+      .hero h1 { font-size:34px; letter-spacing:-1px; }
+      .hero p { font-size:15px; }
+      .hero-stats { gap:24px; }
+      .section { padding:48px 20px; }
+      .section h2 { font-size:26px; }
+      .contact-strip { flex-direction:column; align-items:flex-start; }
+      footer { padding:18px 20px; }
     }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
-    <div class="nav-logo">
+  <nav id="navbar">
+    <a class="nav-logo" href="#">
       <span class="vizag">Vizag</span><span class="wave">Wave</span> <span class="tech">Tech</span>
-    </div>
-    <ul class="nav-links">
+    </a>
+    <ul class="nav-center">
       <li><a href="#about">About</a></li>
       <li><a href="#products">Products</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#founder">Founder</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="mailto:vizagwavetech@gmail.com" class="nav-cta">Get in touch</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#services">Services</a>
+    <a href="#why">Why Us</a>
+    <a href="#founder">Founder</a>
+    <a href="#contact">Contact</a>
+    <a href="mailto:vizagwavetech@gmail.com" style="color:var(--accent);font-weight:600;">Get in touch →</a>
+  </div>
 
   <!-- HERO -->
-  <div class="hero">
+  <div class="hero" style="height:520px;">
+    <canvas id="heroCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;"></canvas>
+    <div class="toggle-hint" id="toggleHint">Click the ☀️ to switch to night</div>
     <div class="hero-content">
       <div class="eyebrow">Vizag · India — Software for the world</div>
-      <h1>Where logic flows,<br><em>magic happens</em></h1>
+      <h1>Where logic flows,<br><em><span id="typedText" class="typed-text"></span></em></h1>
       <p>Building mobile apps, AI solutions, and digital products from the shores of Visakhapatnam — for users around the globe.</p>
       <div class="cta-row">
-        <a href="#products" class="btn-primary">Explore our work</a>
-        <a href="#contact" class="btn-ghost">Get in touch</a>
+        <a href="#products" class="btn-primary"><i class="ti ti-rocket"></i> Explore our work</a>
+        <a href="#contact" class="btn-ghost"><i class="ti ti-mail"></i> Get in touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num"><span id="c1">0</span>+</div><div class="stat-label">Products shipped</div></div>
+        <div class="stat"><div class="stat-num"><span id="c2">0</span></div><div class="stat-label">Services offered</div></div>
+        <div class="stat"><div class="stat-num"><span id="c3">0</span>%</div><div class="stat-label">Passion poured in</div></div>
       </div>
     </div>
-
-    <!-- Ocean scene SVG -->
-    <svg class="hero-scene" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="1200" height="320" fill="#0B1F3A"/>
-
-      <!-- Sun -->
-      <circle cx="960" cy="80" r="70" fill="#0D2A50"/>
-      <circle cx="960" cy="80" r="50" fill="#112F5A"/>
-      <circle cx="960" cy="80" r="30" fill="#FAD05A" opacity="0.9"/>
-      <line x1="880" y1="80" x2="893" y2="80" stroke="#FAD05A" stroke-width="1.5" opacity="0.5"/>
-      <line x1="1027" y1="80" x2="1040" y2="80" stroke="#FAD05A" stroke-width="1.5" opacity="0.5"/>
-      <line x1="960" y1="0"  x2="960" y2="13"  stroke="#FAD05A" stroke-width="1.5" opacity="0.5"/>
-      <line x1="960" y1="147" x2="960" y2="160" stroke="#FAD05A" stroke-width="1.5" opacity="0.5"/>
-      <line x1="904" y1="24" x2="913" y2="33" stroke="#FAD05A" stroke-width="1" opacity="0.35"/>
-      <line x1="1007" y1="127" x2="1016" y2="136" stroke="#FAD05A" stroke-width="1" opacity="0.35"/>
-      <line x1="1016" y1="24" x2="1007" y2="33" stroke="#FAD05A" stroke-width="1" opacity="0.35"/>
-      <line x1="913" y1="127" x2="904" y2="136" stroke="#FAD05A" stroke-width="1" opacity="0.35"/>
-
-      <!-- Sailboat left -->
-      <polygon points="130,195 150,148 170,195" fill="#0D2D55"/>
-      <polygon points="150,148 195,75 150,148" fill="#102A50"/>
-      <rect x="149" y="148" width="2.5" height="52" fill="#0F2848"/>
-
-      <!-- Sailboat right small -->
-      <polygon points="240,208 255,172 270,208" fill="#0A2245"/>
-      <polygon points="255,172 285,118 255,172" fill="#0D2848"/>
-      <rect x="254" y="172" width="2" height="38" fill="#0C2540"/>
-
-      <!-- Far sailboat -->
-      <polygon points="1050,215 1060,192 1070,215" fill="#0D2D55" opacity="0.55"/>
-      <rect x="1059" y="192" width="2" height="25" fill="#0F2848" opacity="0.55"/>
-
-      <!-- Ocean layers -->
-      <path d="M0 248 Q60 230 120 242 Q180 254 240 238 Q300 222 360 236 Q420 250 480 232 Q540 214 600 228 Q660 242 720 226 Q780 210 840 224 Q900 238 960 222 Q1020 206 1080 220 Q1140 234 1200 218 L1200 320 L0 320 Z" fill="#0E3060"/>
-      <path d="M0 264 Q70 244 140 258 Q210 272 280 254 Q350 236 420 250 Q490 264 560 246 Q630 228 700 244 Q770 260 840 242 Q910 224 980 240 Q1050 256 1120 238 L1200 232 L1200 320 L0 320 Z" fill="#112F6A"/>
-      <path d="M0 278 Q80 260 160 274 Q240 288 320 270 Q400 252 480 268 Q560 284 640 266 Q720 248 800 264 Q880 280 960 262 Q1040 244 1120 260 L1200 256 L1200 320 L0 320 Z" fill="#1540A0" opacity="0.55"/>
-      <path d="M0 290 Q90 274 180 288 Q270 302 360 285 Q450 268 540 283 Q630 298 720 280 Q810 262 900 278 Q990 294 1080 276 L1200 270 L1200 320 L0 320 Z" fill="#378ADD" opacity="0.14"/>
-      <path d="M0 304 Q100 288 200 302 Q300 316 400 298 Q500 280 600 296 Q700 312 800 294 Q900 276 1000 292 L1200 284 L1200 320 L0 320 Z" fill="#378ADD" opacity="0.08"/>
-
-      <!-- Wave crests -->
-      <path d="M50 262 Q70 252 90 262 Q110 272 130 260" stroke="#85B7EB" stroke-width="1" fill="none" opacity="0.3"/>
-      <path d="M360 250 Q384 240 408 250 Q432 260 456 248" stroke="#85B7EB" stroke-width="1" fill="none" opacity="0.25"/>
-      <path d="M680 264 Q708 254 736 264 Q764 274 792 262" stroke="#85B7EB" stroke-width="1" fill="none" opacity="0.22"/>
-      <path d="M980 256 Q1004 246 1028 256 Q1052 266 1076 254" stroke="#85B7EB" stroke-width="1" fill="none" opacity="0.2"/>
-
-      <!-- Sun reflection on water -->
-      <line x1="920" y1="268" x2="1000" y2="262" stroke="#FAD05A" stroke-width="1.2" opacity="0.12"/>
-      <line x1="928" y1="278" x2="992" y2="273" stroke="#FAD05A" stroke-width="0.8" opacity="0.09"/>
-
-      <!-- Horizon line -->
-      <line x1="0" y1="244" x2="1200" y2="228" stroke="#378ADD" stroke-width="0.5" opacity="0.18"/>
-
-      <!-- Brand hexagon in sky -->
-      <polygon points="600,18 630,36 630,72 600,90 570,72 570,36" fill="none" stroke="#378ADD" stroke-width="0.6" opacity="0.1"/>
-      <polygon points="600,30 622,44 622,64 600,78 578,64 578,44" fill="none" stroke="#378ADD" stroke-width="0.5" opacity="0.07"/>
-      <polygon points="600,42 614,52 614,58 600,66 586,58 586,52" fill="none" stroke="#378ADD" stroke-width="0.4" opacity="0.05"/>
-    </svg>
   </div>
 
   <!-- WAVE DIVIDER 1 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0D2240;" aria-hidden="true">
-    <path d="M0 0 Q150 36 300 18 Q450 0 600 18 Q750 36 900 18 Q1050 0 1200 18 L1200 0 Z" fill="#0B1F3A"/>
+  <svg id="div1" class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div1path" d="M0 0 Q150 40 300 20 Q450 0 600 20 Q750 40 900 20 Q1050 0 1200 20 L1200 0 Z"/>
   </svg>
 
   <!-- ABOUT -->
   <section class="section alt" id="about">
-    <div class="section-label">About us</div>
-    <h2>Founded in Vizag, India</h2>
-    <p class="sub">A small team with big ambitions — building software that matters, from the coast.</p>
-    <div class="about-card">
+    <div class="section-label reveal">About us</div>
+    <h2 class="reveal reveal-delay-1">Founded in Vizag, India</h2>
+    <p class="sub reveal reveal-delay-2">A small team with big ambitions — building software that matters, from the coast.</p>
+    <div class="about-card reveal reveal-delay-3">
       <div class="avatar">BG</div>
       <div>
         <h3>Bylapudi Giresh</h3>
@@ -489,24 +335,23 @@
     </div>
   </section>
 
-  <!-- WAVE DIVIDER 2 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0B1F3A;" aria-hidden="true">
-    <path d="M0 36 Q300 0 600 22 Q900 44 1200 8 L1200 36 Z" fill="#0D2240"/>
+  <svg class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div2path" d="M0 40 Q300 0 600 24 Q900 48 1200 8 L1200 40 Z"/>
   </svg>
 
   <!-- PRODUCTS -->
   <section class="section" id="products">
-    <div class="section-label">Products</div>
-    <h2>What we're building</h2>
-    <p class="sub">Digital products rooted in real problems.</p>
+    <div class="section-label reveal">Products</div>
+    <h2 class="reveal reveal-delay-1">What we're building</h2>
+    <p class="sub reveal reveal-delay-2">Digital products rooted in real problems.</p>
     <div class="products-grid">
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-2">
         <div class="p-tag">Health & Fitness</div>
-        <h3>Solo Level up</h3>
-        <p>Your personal fitness tracker. Level up your body like a hunter — track workouts, build strength, and stay consistent.</p>
+        <h3>Solo Level Up</h3>
+        <p>Your personal fitness tracker. Level up your body like a hunter — track workouts, build strength, and stay consistent every day.</p>
         <a href="#" class="p-link"><i class="ti ti-arrow-right"></i> View app</a>
       </div>
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-3">
         <div class="p-tag">Coming Soon</div>
         <h3>Next product</h3>
         <p>More innovative solutions in the pipeline. Stay tuned for what's next from the VizagWave team.</p>
@@ -515,135 +360,90 @@
     </div>
   </section>
 
-  <!-- WAVE DIVIDER 3 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0D2240;" aria-hidden="true">
-    <path d="M0 0 Q300 36 600 14 Q900 -8 1200 22 L1200 0 Z" fill="#0B1F3A"/>
+  <svg class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div3path" d="M0 0 Q300 40 600 16 Q900 -8 1200 24 L1200 0 Z"/>
   </svg>
 
   <!-- SERVICES -->
   <section class="section alt" id="services">
-    <div class="section-label">Services</div>
-    <h2>How we can help</h2>
-    <p class="sub">End-to-end software expertise, from idea to launch.</p>
+    <div class="section-label reveal">Services</div>
+    <h2 class="reveal reveal-delay-1">How we can help</h2>
+    <p class="sub reveal reveal-delay-2">End-to-end software expertise, from idea to launch.</p>
     <div class="services-list">
-      <div class="service-row">
+      <div class="service-row reveal reveal-delay-1">
         <div class="service-icon"><i class="ti ti-device-mobile"></i></div>
-        <div>
-          <h3>Mobile app development</h3>
-          <p>Native and cross-platform apps built for real users, with care for UX and performance.</p>
-        </div>
+        <div><h3>Mobile app development</h3><p>Native and cross-platform apps built for real users, with care for UX and performance.</p></div>
       </div>
-      <div class="service-row">
+      <div class="service-row reveal reveal-delay-2">
         <div class="service-icon"><i class="ti ti-world"></i></div>
-        <div>
-          <h3>Web development</h3>
-          <p>Fast, modern websites and web apps that look great and work even better.</p>
-        </div>
+        <div><h3>Web development</h3><p>Fast, modern websites and web apps that look great and work even better.</p></div>
       </div>
-      <div class="service-row">
+      <div class="service-row reveal reveal-delay-3">
         <div class="service-icon"><i class="ti ti-robot"></i></div>
-        <div>
-          <h3>AI-based solutions</h3>
-          <p>Intelligent features and automation tailored to your product's needs.</p>
-        </div>
+        <div><h3>AI-based solutions</h3><p>Intelligent features and automation tailored to your product's needs.</p></div>
       </div>
-      <div class="service-row">
+      <div class="service-row reveal reveal-delay-4">
         <div class="service-icon"><i class="ti ti-package"></i></div>
-        <div>
-          <h3>Software products</h3>
-          <p>Full product development from architecture through launch and beyond.</p>
-        </div>
+        <div><h3>Software products</h3><p>Full product development from architecture through launch and beyond.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- WAVE DIVIDER 4 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0B1F3A;" aria-hidden="true">
-    <path d="M0 36 Q150 6 300 20 Q450 34 600 12 Q750 -10 900 18 Q1050 46 1200 14 L1200 36 Z" fill="#0D2240"/>
+  <svg class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div4path" d="M0 40 Q150 8 300 22 Q450 36 600 14 Q750 -8 900 20 Q1050 48 1200 16 L1200 40 Z"/>
   </svg>
 
-  <!-- WHY VIZAGWAVE -->
+  <!-- WHY -->
   <section class="section" id="why">
-    <div class="section-label">Why VizagWave</div>
-    <h2>What our name stands for</h2>
-    <p class="sub">Every element of the brand encodes a value we build by.</p>
+    <div class="section-label reveal">Why VizagWave</div>
+    <h2 class="reveal reveal-delay-1">What our name stands for</h2>
+    <p class="sub reveal reveal-delay-2">Every element of the brand encodes a value we build by.</p>
     <div class="why-grid">
-      <div class="why-card">
-        <div class="w-icon"><i class="ti ti-wave-sine"></i></div>
-        <div class="w-word">Wave</div>
-        <div class="w-meaning">Innovation</div>
-      </div>
-      <div class="why-card">
-        <div class="w-icon"><i class="ti ti-hexagon"></i></div>
-        <div class="w-word">Hexagon</div>
-        <div class="w-meaning">Stability</div>
-      </div>
-      <div class="why-card">
-        <div class="w-icon"><i class="ti ti-layout-grid"></i></div>
-        <div class="w-word">Pixels</div>
-        <div class="w-meaning">Technology</div>
-      </div>
-      <div class="why-card">
-        <div class="w-icon"><i class="ti ti-trending-up"></i></div>
-        <div class="w-word">Growth</div>
-        <div class="w-meaning">Future</div>
-      </div>
+      <div class="why-card reveal reveal-delay-1"><span class="w-icon"><i class="ti ti-wave-sine"></i></span><div class="w-word">Wave</div><div class="w-arrow">↓</div><div class="w-meaning">Innovation</div></div>
+      <div class="why-card reveal reveal-delay-2"><span class="w-icon"><i class="ti ti-hexagon"></i></span><div class="w-word">Hexagon</div><div class="w-arrow">↓</div><div class="w-meaning">Stability</div></div>
+      <div class="why-card reveal reveal-delay-3"><span class="w-icon"><i class="ti ti-layout-grid"></i></span><div class="w-word">Pixels</div><div class="w-arrow">↓</div><div class="w-meaning">Technology</div></div>
+      <div class="why-card reveal reveal-delay-4"><span class="w-icon"><i class="ti ti-trending-up"></i></span><div class="w-word">Growth</div><div class="w-arrow">↓</div><div class="w-meaning">Future</div></div>
     </div>
   </section>
 
-  <!-- WAVE DIVIDER 5 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0D2240;" aria-hidden="true">
-    <path d="M0 0 Q200 36 400 16 Q600 -4 800 20 Q1000 44 1200 12 L1200 0 Z" fill="#0B1F3A"/>
+  <svg class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div5path" d="M0 0 Q200 40 400 18 Q600 -4 800 22 Q1000 48 1200 14 L1200 0 Z"/>
   </svg>
 
   <!-- FOUNDER -->
   <section class="section alt" id="founder">
-    <div class="section-label">Founder</div>
-    <h2>The person behind it</h2>
-    <p class="sub">Built with purpose, shipped from the coast.</p>
-    <div class="founder-card">
+    <div class="section-label reveal">Founder</div>
+    <h2 class="reveal reveal-delay-1">The person behind it</h2>
+    <p class="sub reveal reveal-delay-2">Built with purpose, shipped from the coast.</p>
+    <div class="founder-card reveal reveal-delay-3">
       <p class="quote">"Building software products from Vizag for users around the world."</p>
       <div class="founder-meta">
         <div class="avatar">BG</div>
-        <div>
-          <div class="name">Bylapudi Giresh</div>
-          <div class="title">Founder & Developer, VizagWave Tech</div>
-        </div>
+        <div><div class="name">Bylapudi Giresh</div><div class="title">Founder & Developer, VizagWave Tech</div></div>
       </div>
     </div>
   </section>
 
-  <!-- WAVE DIVIDER 6 -->
-  <svg class="wave-divider" viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="36" style="background:#0B1F3A;" aria-hidden="true">
-    <path d="M0 36 Q200 4 400 20 Q600 36 800 10 Q1000 -16 1200 18 L1200 36 Z" fill="#0D2240"/>
+  <svg class="wave-divider" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="40" aria-hidden="true">
+    <path id="div6path" d="M0 40 Q200 6 400 22 Q600 38 800 12 Q1000 -14 1200 20 L1200 40 Z"/>
   </svg>
 
   <!-- CONTACT -->
   <section class="section" id="contact">
-    <div class="section-label">Contact</div>
-    <h2>Let's build something together</h2>
-    <p class="sub">From Vizag to anywhere in the world — reach out anytime.</p>
-    <div class="contact-strip">
+    <div class="section-label reveal">Contact</div>
+    <h2 class="reveal reveal-delay-1">Let's build something together</h2>
+    <p class="sub reveal reveal-delay-2">From Vizag to anywhere in the world — reach out anytime.</p>
+    <div class="contact-strip reveal reveal-delay-3">
       <div>
         <h3>Get in touch</h3>
-        <p class="email-hint">vizagwavetech@gmail.com</p>
+        <p class="email-hint"><i class="ti ti-mail" style="font-size:15px;"></i> vizagwavetech@gmail.com</p>
       </div>
       <div class="contact-links">
-        <a href="mailto:vizagwavetech@gmail.com" class="contact-link">
-          <i class="ti ti-mail"></i> Email
-        </a>
-        <a href="https://github.com/vizagwavetech" target="_blank" rel="noopener" class="contact-link">
-          <i class="ti ti-brand-github"></i> GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/vizagwave-technologies-31136b419/" target="_blank" rel="noopener" class="contact-link">
-          <i class="ti ti-brand-linkedin"></i> LinkedIn
-        </a>
-        <a href="https://www.instagram.com/vizagwave_tech/" target="_blank" rel="noopener" class="contact-link">
-          <i class="ti ti-brand-instagram"></i> Instagram
-        </a>
-        <a href="https://www.youtube.com/@VizagWaveTechnologies" target="_blank" rel="noopener" class="contact-link">
-          <i class="ti ti-brand-youtube"></i> YouTube
-        </a>
+        <a href="mailto:vizagwavetech@gmail.com" class="contact-link"><i class="ti ti-mail"></i> Email</a>
+        <a href="https://github.com/vizagwavetech" target="_blank" rel="noopener" class="contact-link"><i class="ti ti-brand-github"></i> GitHub</a>
+        <a href="https://linkedin.com/in/vizagwavetech" target="_blank" rel="noopener" class="contact-link"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
+        <a href="https://instagram.com/vizagwavetech" target="_blank" rel="noopener" class="contact-link"><i class="ti ti-brand-instagram"></i> Instagram</a>
+        <a href="https://youtube.com/@vizagwavetech" target="_blank" rel="noopener" class="contact-link"><i class="ti ti-brand-youtube"></i> YouTube</a>
       </div>
     </div>
   </section>
@@ -652,11 +452,553 @@
   <footer>
     <p>© 2026 VizagWave Tech · Visakhapatnam, India</p>
     <div class="footer-links">
-    <a href="https://github.com/vizagwavetech" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.youtube.com/@VizagWaveTechnologies" target="_blank" rel="noopener">YouTube</a>
-    <a href="mailto:vizagwavetech@gmail.com">Email</a>
-</div>
+      <a href="https://github.com/vizagwavetech" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i></a>
+      <a href="https://youtube.com/@vizagwavetech" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i></a>
+      <a href="mailto:vizagwavetech@gmail.com">Email</a>
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
+    </div>
   </footer>
 
+  <a href="#" class="back-top" id="backTop"><i class="ti ti-arrow-up"></i></a>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CANVAS HERO — Full dynamic day/night ocean scene
+// ═══════════════════════════════════════════════════════
+const canvas = document.getElementById('heroCanvas');
+const ctx    = canvas.getContext('2d');
+let W, H, isNight = false, transitioning = false;
+let transitionProgress = 0; // 0=day, 1=night
+let transitionDir = 0;
+
+// Resize
+function resize() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  W = canvas.width  = rect.width;
+  H = canvas.height = rect.height || 520;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ── Colour lerp helpers ──
+function lerp(a, b, t) { return a + (b - a) * t; }
+function lerpColor(c1, c2, t) {
+  const r1=parseInt(c1.slice(1,3),16), g1=parseInt(c1.slice(3,5),16), b1=parseInt(c1.slice(5,7),16);
+  const r2=parseInt(c2.slice(1,3),16), g2=parseInt(c2.slice(3,5),16), b2=parseInt(c2.slice(5,7),16);
+  const r=Math.round(lerp(r1,r2,t)), g=Math.round(lerp(g1,g2,t)), b=Math.round(lerp(b1,b2,t));
+  return `rgb(${r},${g},${b})`;
+}
+function lerpRGBA(r1,g1,b1,a1, r2,g2,b2,a2, t) {
+  return `rgba(${Math.round(lerp(r1,r2,t))},${Math.round(lerp(g1,g2,t))},${Math.round(lerp(b1,b2,t))},${(lerp(a1,a2,t)).toFixed(2)})`;
+}
+
+// ── Palettes ──
+const DAY = {
+  skyTop:'#1a6bb5', skyBot:'#87ceeb',
+  sunColor:'#FFE066', sunGlow:'rgba(255,220,50,0.25)',
+  moonColor:null,
+  horizonLine:'rgba(255,255,255,0.4)',
+  ocean:['#1565c0','#1976d2','#1e88e5','#42a5f5','#64b5f6'],
+  crest:'rgba(255,255,255,0.55)',
+  boatHull:'#0d47a1', boatSail1:'#1a5296', boatSail2:'#1565c0',
+  boatMast:'#0b3d91',
+  starAlpha:0,
+  seagullColor:'rgba(255,255,255,0.7)',
+  cloudColor:'rgba(255,255,255,0.82)',
+};
+const NIGHT = {
+  skyTop:'#020b18', skyBot:'#0b1f3a',
+  sunColor:null,
+  moonColor:'#e8eaf6',
+  horizonLine:'rgba(55,138,221,0.35)',
+  ocean:['#050f1f','#071528','#091a30','#0d2240','#1a3a6a'],
+  crest:'rgba(133,183,235,0.45)',
+  boatHull:'#0d2d55', boatSail1:'#102a50', boatSail2:'#112f62',
+  boatMast:'#0f2848',
+  starAlpha:1,
+  seagullColor:'rgba(255,255,255,0)',
+  cloudColor:'rgba(255,255,255,0)',
+};
+
+function getP(t) {
+  const keys = Object.keys(DAY);
+  const out = {};
+  keys.forEach(k => {
+    if (k === 'ocean') {
+      out[k] = DAY[k].map((c,i) => lerpColor(c, NIGHT[k][i], t));
+    } else if (typeof DAY[k] === 'string' && DAY[k].startsWith('#')) {
+      out[k] = lerpColor(DAY[k], NIGHT[k] || DAY[k], t);
+    } else {
+      out[k] = DAY[k]; // pass through (handled separately)
+    }
+  });
+  return out;
+}
+
+// ── Stars ──
+const stars = Array.from({length:120}, () => ({
+  x: Math.random(), y: Math.random() * 0.55,
+  r: Math.random() * 1.2 + 0.3,
+  twinkle: Math.random() * Math.PI * 2,
+  speed: Math.random() * 0.04 + 0.01
+}));
+
+// ── Clouds ──
+const clouds = Array.from({length:5}, (_, i) => ({
+  x: 0.05 + i * 0.2 + Math.random() * 0.1,
+  y: 0.08 + Math.random() * 0.18,
+  w: 80 + Math.random() * 80,
+  speed: 0.00005 + Math.random() * 0.00008
+}));
+
+// ── Waves ──
+const waveLayers = [
+  { amp: 14, freq: 0.012, speed: 0.0008, phase: 0, yFrac: 0.62 },
+  { amp: 10, freq: 0.018, speed: 0.0012, phase: 1.2, yFrac: 0.68 },
+  { amp:  8, freq: 0.022, speed: 0.0016, phase: 2.4, yFrac: 0.73 },
+  { amp:  6, freq: 0.028, speed: 0.002,  phase: 0.8, yFrac: 0.78 },
+  { amp:  4, freq: 0.034, speed: 0.0025, phase: 3.1, yFrac: 0.83 },
+];
+
+// ── Boats ──
+const boats = [
+  { xFrac:0.14, scale:1.0, speed:0.00012, sailAngle:0.04 },
+  { xFrac:0.30, scale:0.72, speed:0.00009, sailAngle:-0.03 },
+  { xFrac:0.88, scale:0.45, speed:0.00014, sailAngle:0.05 },
+];
+
+// ── Seagulls ──
+const gulls = Array.from({length:8}, (_, i) => ({
+  x: Math.random() * 0.9 + 0.05,
+  y: 0.25 + Math.random() * 0.2,
+  span: 14 + Math.random() * 10,
+  flapPhase: Math.random() * Math.PI * 2,
+  flapSpeed: 0.06 + Math.random() * 0.04,
+  speedX: (0.00005 + Math.random() * 0.0001) * (Math.random()<0.5?1:-1),
+}));
+
+// ── Shooting stars (night only) ──
+const shootingStars = [];
+function maybeAddShootingStar() {
+  if (isNight && transitionProgress > 0.8 && Math.random() < 0.005 && shootingStars.length < 2) {
+    shootingStars.push({
+      x: Math.random() * 0.7 + 0.1,
+      y: Math.random() * 0.2,
+      len: 0.08 + Math.random() * 0.1,
+      alpha: 1,
+      speed: 0.004 + Math.random() * 0.003,
+      angle: Math.PI / 6 + Math.random() * Math.PI / 8
+    });
+  }
+}
+
+// ── Sun/Moon click state ──
+let sunX, sunY, sunR = 38;
+let moonX, moonY, moonR = 32;
+
+function drawScene(ts) {
+  const t = transitionProgress;
+  ctx.clearRect(0, 0, W, H);
+
+  // ── SKY gradient ──
+  const gSky = ctx.createLinearGradient(0,0,0,H*0.65);
+  gSky.addColorStop(0, lerpColor(DAY.skyTop, NIGHT.skyTop, t));
+  gSky.addColorStop(1, lerpColor(DAY.skyBot, NIGHT.skyBot, t));
+  ctx.fillStyle = gSky;
+  ctx.fillRect(0, 0, W, H);
+
+  // ── Stars ──
+  stars.forEach(s => {
+    const alpha = t * s.twinkle;
+    const tw = 0.5 + 0.5 * Math.sin(s.twinkle + ts * s.speed);
+    const a = t * tw;
+    if (a < 0.01) return;
+    ctx.beginPath();
+    ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+    ctx.fill();
+  });
+
+  // ── Shooting stars ──
+  maybeAddShootingStar();
+  for (let i = shootingStars.length - 1; i >= 0; i--) {
+    const ss = shootingStars[i];
+    ss.x += Math.cos(ss.angle) * ss.speed;
+    ss.y += Math.sin(ss.angle) * ss.speed;
+    ss.alpha -= 0.015;
+    if (ss.alpha <= 0 || ss.x > 1 || ss.y > 0.6) { shootingStars.splice(i,1); continue; }
+    ctx.save();
+    ctx.globalAlpha = ss.alpha * t;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(ss.x * W, ss.y * H);
+    ctx.lineTo((ss.x - Math.cos(ss.angle)*ss.len)*W, (ss.y - Math.sin(ss.angle)*ss.len)*H);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ── Clouds (day) ──
+  clouds.forEach(cl => {
+    cl.x += cl.speed;
+    if (cl.x > 1.2) cl.x = -0.15;
+    const a = (1 - t) * 0.82;
+    if (a < 0.02) return;
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.fillStyle = '#fff';
+    const cx = cl.x * W, cy = cl.y * H, cw = cl.w;
+    ctx.beginPath();
+    ctx.ellipse(cx,      cy,      cw*0.5, cw*0.18, 0, 0, Math.PI*2);
+    ctx.ellipse(cx-cw*0.22, cy+4, cw*0.3, cw*0.14, 0, 0, Math.PI*2);
+    ctx.ellipse(cx+cw*0.22, cy+6, cw*0.28,cw*0.13, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // ── SUN ──
+  sunX = W * 0.82;
+  sunY = H * 0.22;
+  const sunAlpha = 1 - t;
+  if (sunAlpha > 0.02) {
+    ctx.save();
+    ctx.globalAlpha = sunAlpha;
+    // Glow
+    const gSun = ctx.createRadialGradient(sunX,sunY,sunR*0.5,sunX,sunY,sunR*3);
+    gSun.addColorStop(0,'rgba(255,220,50,0.35)');
+    gSun.addColorStop(1,'rgba(255,220,50,0)');
+    ctx.fillStyle = gSun;
+    ctx.beginPath(); ctx.arc(sunX,sunY,sunR*3,0,Math.PI*2); ctx.fill();
+    // Rays
+    for (let r=0;r<12;r++) {
+      const angle = (r/12)*Math.PI*2 + ts*0.0003;
+      ctx.save();
+      ctx.translate(sunX,sunY);
+      ctx.rotate(angle);
+      ctx.strokeStyle='rgba(255,220,50,0.4)';
+      ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(sunR+6,0); ctx.lineTo(sunR+20,0); ctx.stroke();
+      ctx.restore();
+    }
+    // Disk
+    ctx.beginPath(); ctx.arc(sunX,sunY,sunR,0,Math.PI*2);
+    ctx.fillStyle='#FFE066'; ctx.fill();
+    // Cursor hint
+    ctx.fillStyle='rgba(0,0,0,0.15)';
+    ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('click me', sunX, sunY + sunR + 14);
+    ctx.restore();
+  }
+
+  // ── MOON ──
+  moonX = W * 0.82;
+  moonY = H * 0.2;
+  const moonAlpha = t;
+  if (moonAlpha > 0.02) {
+    ctx.save();
+    ctx.globalAlpha = moonAlpha;
+    // Glow
+    const gMoon = ctx.createRadialGradient(moonX,moonY,moonR*0.5,moonX,moonY,moonR*3);
+    gMoon.addColorStop(0,'rgba(200,210,255,0.25)');
+    gMoon.addColorStop(1,'rgba(200,210,255,0)');
+    ctx.fillStyle = gMoon;
+    ctx.beginPath(); ctx.arc(moonX,moonY,moonR*3,0,Math.PI*2); ctx.fill();
+    // Crescent
+    ctx.beginPath(); ctx.arc(moonX,moonY,moonR,0,Math.PI*2);
+    ctx.fillStyle='#e8eaf6'; ctx.fill();
+    ctx.beginPath(); ctx.arc(moonX+moonR*0.38, moonY-moonR*0.1, moonR*0.82,0,Math.PI*2);
+    ctx.fillStyle = lerpColor(NIGHT.skyTop, NIGHT.skyBot, 0.2);
+    ctx.fill();
+    // Stars around moon
+    [[moonR*1.8, -moonR*0.8, 0.9], [-moonR*1.6, -moonR*1.2, 1.1], [moonR*1.4, moonR*1.4, 0.7]].forEach(([dx,dy,sr]) => {
+      ctx.beginPath(); ctx.arc(moonX+dx, moonY+dy, sr, 0, Math.PI*2);
+      ctx.fillStyle='#fff'; ctx.fill();
+    });
+    ctx.fillStyle='rgba(200,210,255,0.6)';
+    ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('click me', moonX, moonY + moonR + 14);
+    ctx.restore();
+  }
+
+  // ── Seagulls (day only) ──
+  gulls.forEach(g => {
+    const a = (1-t) * 0.7;
+    if (a < 0.02) return;
+    g.x += g.speedX;
+    if (g.x < -0.05) g.x = 1.05;
+    if (g.x > 1.05)  g.x = -0.05;
+    g.flapPhase += g.flapSpeed;
+    const flap = Math.sin(g.flapPhase) * 0.4;
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(g.x*W - g.span, g.y*H + flap*g.span);
+    ctx.quadraticCurveTo(g.x*W, g.y*H - g.span*0.3, g.x*W + g.span, g.y*H + flap*g.span);
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // ── OCEAN waves ──
+  waveLayers.forEach((wl, i) => {
+    wl.phase += wl.speed * (1 + i*0.1);
+    const yBase = wl.yFrac * H;
+    const col = lerpColor(DAY.ocean[i], NIGHT.ocean[i], t);
+
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    ctx.lineTo(0, yBase);
+    for (let x=0; x<=W; x+=4) {
+      const y = yBase + Math.sin(x * wl.freq + wl.phase) * wl.amp
+                      + Math.sin(x * wl.freq * 1.7 + wl.phase * 1.3) * wl.amp * 0.4;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H); ctx.closePath();
+    ctx.fillStyle = col;
+    ctx.fill();
+
+    // Wave crests (white/blue shimmer)
+    if (i < 3) {
+      ctx.beginPath();
+      for (let x=0; x<=W; x+=4) {
+        const y = yBase + Math.sin(x * wl.freq + wl.phase) * wl.amp
+                        + Math.sin(x * wl.freq * 1.7 + wl.phase * 1.3) * wl.amp * 0.4;
+        x===0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      const crestAlpha = 0.45 + 0.15 * Math.sin(ts * 0.001 + i);
+      ctx.strokeStyle = lerpColor('#ffffff', '#85b7eb', t);
+      ctx.globalAlpha = (1 - t)*0.5 + t*0.4;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  });
+
+  // ── Horizon glow ──
+  const hY = waveLayers[0].yFrac * H - 4;
+  const gH = ctx.createLinearGradient(0, hY-20, 0, hY+10);
+  gH.addColorStop(0, `rgba(255,255,255,${((1-t)*0.25).toFixed(2)})`);
+  gH.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = gH;
+  ctx.fillRect(0, hY-20, W, 30);
+
+  // ── Sun reflection on water (day) ──
+  if (1-t > 0.1) {
+    ctx.save();
+    ctx.globalAlpha = (1-t)*0.18;
+    const gRef = ctx.createLinearGradient(sunX-60, hY, sunX+60, hY+80);
+    gRef.addColorStop(0,'rgba(255,220,50,0.6)');
+    gRef.addColorStop(1,'rgba(255,220,50,0)');
+    ctx.fillStyle = gRef;
+    ctx.beginPath();
+    ctx.moveTo(sunX-18, hY);
+    ctx.lineTo(sunX+18, hY);
+    ctx.lineTo(sunX+55, hY+80);
+    ctx.lineTo(sunX-55, hY+80);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  // ── Moon reflection on water (night) ──
+  if (t > 0.1) {
+    ctx.save();
+    ctx.globalAlpha = t * 0.14;
+    for (let i=0;i<5;i++) {
+      const rY = hY + 15 + i*16;
+      ctx.beginPath();
+      ctx.ellipse(moonX, rY, 30 - i*4, 3, 0, 0, Math.PI*2);
+      ctx.fillStyle = '#e8eaf6';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // ── BOATS ──
+  boats.forEach(boat => {
+    boat.xFrac += boat.speed;
+    if (boat.xFrac > 1.1) boat.xFrac = -0.1;
+
+    const bx = boat.xFrac * W;
+    // Ride the wave
+    const wl0 = waveLayers[0];
+    const waveY = wl0.yFrac * H + Math.sin(bx * wl0.freq + wl0.phase) * wl0.amp;
+    const by = waveY - 6 * boat.scale;
+    const roll = Math.sin(wl0.phase + bx * 0.02) * boat.sailAngle * 0.8;
+    const sc = boat.scale;
+
+    ctx.save();
+    ctx.translate(bx, by);
+    ctx.rotate(roll);
+
+    // Hull
+    ctx.beginPath();
+    ctx.moveTo(-22*sc, 0);
+    ctx.quadraticCurveTo(0, 16*sc, 22*sc, 0);
+    ctx.lineTo(18*sc, -6*sc);
+    ctx.lineTo(-18*sc, -6*sc);
+    ctx.closePath();
+    ctx.fillStyle = lerpColor(DAY.boatHull, NIGHT.boatHull, t);
+    ctx.fill();
+
+    // Mast
+    ctx.beginPath();
+    ctx.moveTo(0, -6*sc);
+    ctx.lineTo(0, -55*sc);
+    ctx.strokeStyle = lerpColor(DAY.boatMast, NIGHT.boatMast, t);
+    ctx.lineWidth = 1.8*sc;
+    ctx.stroke();
+
+    // Main sail
+    ctx.beginPath();
+    ctx.moveTo(0, -50*sc);
+    ctx.lineTo(30*sc, -8*sc);
+    ctx.lineTo(0, -8*sc);
+    ctx.closePath();
+    ctx.fillStyle = lerpColor(DAY.boatSail1, NIGHT.boatSail1, t);
+    ctx.globalAlpha = 0.9;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Jib sail
+    ctx.beginPath();
+    ctx.moveTo(0, -44*sc);
+    ctx.lineTo(-20*sc, -8*sc);
+    ctx.lineTo(0, -8*sc);
+    ctx.closePath();
+    ctx.fillStyle = lerpColor(DAY.boatSail2, NIGHT.boatSail2, t);
+    ctx.globalAlpha = 0.85;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Boom
+    ctx.beginPath();
+    ctx.moveTo(-4*sc, -8*sc);
+    ctx.lineTo(28*sc, -5*sc);
+    ctx.strokeStyle = lerpColor(DAY.boatMast, NIGHT.boatMast, t);
+    ctx.lineWidth = 1.2*sc;
+    ctx.stroke();
+
+    ctx.restore();
+  });
+
+  // ── Hexagon watermark (night) ──
+  if (t > 0.3) {
+    ctx.save();
+    ctx.globalAlpha = (t-0.3)/0.7 * 0.08;
+    ctx.strokeStyle='#378add'; ctx.lineWidth=1;
+    const hcx = W*0.45, hcy = H*0.15, hr=44;
+    ctx.beginPath();
+    for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6; ctx.lineTo(hcx+hr*Math.cos(a),hcy+hr*Math.sin(a));}
+    ctx.closePath(); ctx.stroke();
+    ctx.restore();
+  }
+
+  // ── Transition ──
+  if (transitioning) {
+    transitionProgress = Math.max(0, Math.min(1, transitionProgress + transitionDir * 0.012));
+    if (transitionProgress >= 1) { transitioning = false; transitionProgress = 1; applyTheme(); }
+    if (transitionProgress <= 0) { transitioning = false; transitionProgress = 0; applyTheme(); }
+  }
+}
+
+// ── SVG divider color sync ──
+function updateDividers() {
+  const a = lerpColor('#1565c0','#0d2240', transitionProgress);
+  const b = lerpColor('#0d47a1','#0b1f3a', transitionProgress);
+  ['div1path','div3path','div5path'].forEach(id => { const el=document.getElementById(id); if(el) el.setAttribute('fill',a); });
+  ['div2path','div4path','div6path'].forEach(id => { const el=document.getElementById(id); if(el) el.setAttribute('fill',b); });
+}
+
+// ── Apply CSS theme ──
+function applyTheme() {
+  if (isNight) document.body.classList.add('night');
+  else document.body.classList.remove('night');
+}
+
+// ── Animate loop ──
+let lastTs = 0;
+function loop(ts) {
+  drawScene(ts);
+  updateDividers();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// ── Click detection on Sun / Moon ──
+canvas.style.cursor = 'default';
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (W / rect.width);
+  const my = (e.clientY - rect.top)  * (H / rect.height);
+  const nearSun  = !isNight && Math.hypot(mx-sunX, my-sunY) < sunR + 20;
+  const nearMoon =  isNight && Math.hypot(mx-moonX, my-moonY) < moonR + 20;
+  canvas.style.cursor = (nearSun || nearMoon) ? 'pointer' : 'default';
+});
+
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (W / rect.width);
+  const my = (e.clientY - rect.top)  * (H / rect.height);
+
+  if (!isNight && Math.hypot(mx-sunX, my-sunY) < sunR + 20) {
+    isNight = true; transitioning = true; transitionDir = 1;
+    document.getElementById('toggleHint').textContent = 'Click the 🌙 to switch to day';
+  } else if (isNight && Math.hypot(mx-moonX, my-moonY) < moonR + 20) {
+    isNight = false; transitioning = true; transitionDir = -1;
+    document.getElementById('toggleHint').textContent = 'Click the ☀️ to switch to night';
+  }
+});
+
+// ═══════════════════════════════
+//  TYPING EFFECT
+// ═══════════════════════════════
+const phrases = ['magic happens','ideas ship','waves form','futures build'];
+let pi=0,ci=0,deleting=false;
+const typedEl = document.getElementById('typedText');
+function type() {
+  const phrase = phrases[pi];
+  if (!deleting) {
+    typedEl.textContent = phrase.slice(0,++ci);
+    if (ci===phrase.length) { deleting=true; setTimeout(type,1800); return; }
+  } else {
+    typedEl.textContent = phrase.slice(0,--ci);
+    if (ci===0) { deleting=false; pi=(pi+1)%phrases.length; }
+  }
+  setTimeout(type, deleting?55:95);
+}
+type();
+
+// ═══════════════════════════════
+//  COUNTER ANIMATION
+// ═══════════════════════════════
+function countUp(id,target,dur) {
+  const el=document.getElementById(id); const s=performance.now();
+  function u(now){const t=Math.min((now-s)/dur,1);el.textContent=Math.round(t*target);if(t<1)requestAnimationFrame(u);}
+  requestAnimationFrame(u);
+}
+setTimeout(()=>{countUp('c1',2,1200);countUp('c2',4,1400);countUp('c3',100,1600);},600);
+
+// ═══════════════════════════════
+//  NAV / MOBILE MENU
+// ═══════════════════════════════
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>20);
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>300);
+});
+const tog=document.getElementById('navToggle'), mob=document.getElementById('mobileMenu');
+tog.addEventListener('click',()=>{ tog.classList.toggle('open'); mob.classList.toggle('open'); });
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ tog.classList.remove('open'); mob.classList.remove('open'); }));
+
+// ═══════════════════════════════
+//  SCROLL REVEAL
+// ═══════════════════════════════
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Back to top
+document.getElementById('backTop').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});});
+</script>
 </body>
 </html>
